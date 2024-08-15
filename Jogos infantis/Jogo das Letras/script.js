@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function playLetterAudio(letter) {
-        const audio = new Audio(`https://translate.google.com/translate_tts?ie=UTF-8&tl=pt-BR&q=${letter}&client=tw-ob`);
+        const audio = new Audio("https://translate.google.com/translate_tts?ie=UTF-8&tl=pt-BR&q=${letter}&client=tw-ob");
         audio.play();
     }
 
