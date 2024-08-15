@@ -3,26 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página com Navbar</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Jogos Infantis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        a {
+            display: block;
+            margin: 10px 0;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+
+        a:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <!-- Div onde o navbar será inserido -->
-    <div id="navbar"></div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            fetch('navbar.html')
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('navbar').innerHTML = data;
-                })
-                .catch(error => console.error('Erro ao carregar o navbar:', error));
-        });
-    </script>
-
-    <!-- Conteúdo da página -->
-    <h1>Bem-vindo ao Jogo dos Números</h1>
-    <p>Conteúdo específico do jogo aqui.</p>
+    <div class="container">
+        <h1>Jogos Infantis</h1>
+        <a href="Jogos%20infantis/Jogo%20dos%20N%C3%BAmeros/index.html">Jogo dos Números</a>
+        <a href="Jogos%20infantis/Jogo%20das%20Letras/index.html">Jogo das Letras</a>
+    </div>
 </body>
 </html>
