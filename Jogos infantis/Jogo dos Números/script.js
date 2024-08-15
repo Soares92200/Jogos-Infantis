@@ -12,10 +12,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return Math.floor(Math.random() * 10) + 1; // Gera um número entre 1 e 10
     }
 
+    //function playNumberAudio(number) {
+    //const audio = new Audio(`https://translate.google.com/translate_tts?ie=UTF-8&tl=pt-BR&q=${number}&client=tw-ob`);
+    //    audio.play();
+    //}
+
     function playNumberAudio(number) {
-        const audio = new Audio(`https://translate.google.com/translate_tts?ie=UTF-8&tl=pt-BR&q=${number}&client=tw-ob`);
-        audio.play();
+        const utterance = new SpeechSynthesisUtterance(number.toString());
+        utterance.lang = 'pt-BR'; // Define a linguagem para português brasileiro
+        speechSynthesis.speak(utterance);
     }
+
+
 
     function generateNewNumber() {
         currentNumber = getRandomNumber();
