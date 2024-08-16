@@ -1,53 +1,118 @@
 document.addEventListener('DOMContentLoaded', () => {
     const playButton = document.getElementById('play-number');
-    const checkButton = document.getElementById('check-answer');
     const numberInput = document.getElementById('number-input');
     const feedback = document.getElementById('feedback');
     const scoreDisplay = document.getElementById('score');
+    const numberButtonsContainer = document.getElementById('number-buttons');
+    const difficultySelect = document.getElementById('difficulty');
     
-    let currentNumber = 0;
+    let currentNumber = '';
     let score = 0;
+    let maxNumber = 9;
 
-    function getRandomNumber() {
-        return Math.floor(Math.random() * 10) + 1; // Gera um número entre 1 e 10
+    // Verifica se o usuário está em um dispositivo Android
+    const isAndroid = /Android/i.test(navigator.userAgent);
+
+    function setDifficulty(level) {
+        switch (level) {
+            case 'easy':
+                maxNumber = 9;
+                numberButtonsContainer.style.display = 'block';
+                generateNumberButtons(maxNumber);
+                break;
+            case 'medium':
+                maxNumber = 99;
+                numberButtonsContainer.style.display = 'none';
+                break;
+            case 'hard':
+                maxNumber = 999;
+                numberButtonsContainer.style.display = 'none';
+                break;
+        }
     }
 
-    //function playNumberAudio(number) {
-    //const audio = new Audio(`https://translate.google.com/translate_tts?ie=UTF-8&tl=pt-BR&q=${number}&client=tw-ob`);
-    //    audio.play();
-    //}
+    function generateNumberButtons(maxNum) {
+        numberButtonsContainer.innerHTML = '';
+        for (let i = 0; i <= maxNum; i++) {
+            const button = document.createElement('button');
+            button.textContent = i;
+            button.addEventListener('click', () => {
+                checkAnswer(i.toString());
+            });
+            numberButtonsContainer.appendChild(button);
+        }
+    }
+
+    function getRandomNumber(maxNum) {
+        return Math.floor(Math.random() * (maxNum + 1));
+    }
 
     function playNumberAudio(number) {
         const utterance = new SpeechSynthesisUtterance(number.toString());
-        utterance.lang = 'pt-BR'; // Define a linguagem para português brasileiro
+        utterance.lang = 'pt-BR';
         speechSynthesis.speak(utterance);
     }
 
-
-
     function generateNewNumber() {
-        currentNumber = getRandomNumber();
+        currentNumber = getRandomNumber(maxNumber).toString();
+        setTimeout(() => {
+            playNumberAudio(currentNumber);
+        }, 500);
     }
 
-    playButton.addEventListener('click', () => {
-        if (currentNumber === 0) {
-            generateNewNumber();
-        }
-        playNumberAudio(currentNumber);
-    });
-
-    checkButton.addEventListener('click', () => {
-        const userAnswer = parseInt(numberInput.value, 10);
-        if (userAnswer === currentNumber) {
+    function checkAnswer(answer) {
+        if (answer === currentNumber) {
             feedback.textContent = 'Correto! Parabéns!';
             feedback.style.color = 'green';
             score++;
             scoreDisplay.textContent = score;
-            generateNewNumber(); // Gera um novo número após a resposta correta
+            setTimeout(() => {
+                generateNewNumber();
+            }, 500);
         } else {
             feedback.textContent = 'Tente novamente!';
             feedback.style.color = 'red';
         }
         numberInput.value = '';
+        handleFocus();
+    }
+
+    function handleFocus() {
+        if (!(isAndroid && numberButtonsContainer.style.display !== 'none')) {
+            numberInput.focus();
+        }
+    }
+
+    playButton.addEventListener('click', () => {
+        if (currentNumber === '') {
+            generateNewNumber();
+        } else {
+            playNumberAudio(currentNumber);
+        }
+        handleFocus();
     });
+
+    numberInput.addEventListener('keyup', (event) => {
+        if (event.key === 'Enter') {
+            checkAnswer(numberInput.value);
+        }
+    });
+
+    difficultySelect.addEventListener('change', (event) => {
+        setDifficulty(event.target.value);
+        startGame();
+    });
+
+    function startGame() {
+        generateNewNumber();
+        setTimeout(() => {
+            playNumberAudio(currentNumber);
+            handleFocus();
+        }, 500);
+    }
+
+    setDifficulty(difficultySelect.value);
+    startGame();
+
+    numberInput.focus();
 });

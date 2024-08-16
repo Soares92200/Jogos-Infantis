@@ -10,11 +10,23 @@
     <div class="container">
         <h1>Jogo dos Números</h1>
         <p>Ouça o número e digite-o no campo abaixo:</p>
-        <button id="play-number">Ouvir Número</button>
+        <label for="difficulty">Escolha o nível de dificuldade:</label>
+        <select id="difficulty">
+            <option value="easy">Fácil (0-9)</option>
+            <option value="medium">Médio (0-99)</option>
+            <option value="hard">Difícil (0-999)</option>
+        </select>
+
+        <br>
+
+        <button id="play-number">Reproduzir Número</button>
         <input type="text" id="number-input" placeholder="Digite o número">
-        <button id="check-answer">Verificar</button>
         <p id="feedback"></p>
         <p>Pontuação: <span id="score">0</span></p>
+
+        <div id="number-buttons"></div> <!-- Contêiner para os botões dos números -->
+
+
         <a href="../letras/index.html">Jogar com Letras</a> <!-- Link para o jogo das letras -->
     </div>
     <script src="script.js"></script>
